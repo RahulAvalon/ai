@@ -8,6 +8,8 @@ import pandas as pd
 import json
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
+import os
+
 
 # Initialize app once
 app = FastAPI(title="Disease Intervention Predictor")
@@ -84,3 +86,8 @@ def predict(data_input: DiseaseInput, threshold: float = 0.05):
         interventions=sorted(matched_interventions),
         selected_epi=sorted(selected_epi_set)
     )
+
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.environ.get("PORT", 8000))  # Render provides PORT env variable
+    uvicorn.run("main:app", host="0.0.0.0", port=port)
